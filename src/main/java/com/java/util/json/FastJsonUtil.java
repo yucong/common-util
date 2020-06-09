@@ -1,6 +1,8 @@
 package com.java.util.json;
 
 import java.util.List;
+import java.util.Map;
+
 import com.alibaba.fastjson.JSON;
 
 /**
@@ -42,6 +44,18 @@ public class FastJsonUtil {
 	 */
 	public static List<?> parseJsonArray(String json,Class<?> clazz) {
 		return JSON.parseArray(json, clazz);
+	}
+	
+	/**
+	 * 
+	 * 描述：将json转化为Map:String--->Map<?>
+	 * @param json
+	 * @param clazz
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static Map<String,Object> json2Map(String json){
+		return JSON.parseObject(json, Map.class);
 	}
 	  
 
