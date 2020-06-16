@@ -23,16 +23,6 @@ public class SignUtil {
 	
 	public static void main(String[] args) throws UnsupportedEncodingException {
 
-		UserSign userSign = new UserSign();
-		userSign.setId(1);
-		userSign.setAddress("上海市");
-		userSign.setEmail("16343@sina.cn");
-
-		
-		
-		String sign = createSign(userSign, "123456");
-		boolean result = verifySign(userSign, "123456",sign);
-		System.out.println("result:" + result);
 	}
 	
 	
