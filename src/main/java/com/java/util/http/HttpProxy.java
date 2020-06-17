@@ -249,7 +249,7 @@ public class HttpProxy {
 			CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
 			try {
 				HttpEntity entity = httpResponse.getEntity();
-				System.out.println("httpCode:" + httpResponse.getStatusLine().getStatusCode());
+				// System.out.println("httpCode:" + httpResponse.getStatusLine().getStatusCode());
 				if (/*httpResponse.getStatusLine().getReasonPhrase().equals("OK") 
 						&&*/ httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 					result = EntityUtils.toString(entity, "UTF-8");
@@ -263,8 +263,8 @@ public class HttpProxy {
 				}
 			}
 		} catch(Exception e) {
-			System.out.println("出现异常");
 			e.printStackTrace();
+			result = "出现异常";
 		} finally {
 			if (null != httpPost) {
 				httpPost.releaseConnection();
