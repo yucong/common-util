@@ -157,7 +157,7 @@ public class HttpProxy {
 	 * @return 返回响应结果
 	 * @throws IOException
 	 */
-	public static String postJson(String requestUrl, String jsonContent) throws IOException {
+	public static String postJson(String requestUrl, String jsonContent) {
 		StringEntity requestEntity = new StringEntity(jsonContent, Consts.UTF_8);
 		requestEntity.setContentEncoding("UTF-8");    
 		requestEntity.setContentType(CONTENT_TYPE_JSON);  
@@ -234,7 +234,7 @@ public class HttpProxy {
 	 * @return 返回响应结果
 	 * @throws IOException
 	 */
-	private static String execute(String requestUrl, HttpEntity httpEntity,Map<String,String> headMap) throws IOException {
+	private static String execute(String requestUrl, HttpEntity httpEntity,Map<String,String> headMap)  {
 		String result = null;
 		HttpPost httpPost = new HttpPost(requestUrl);
 		httpPost.setEntity(httpEntity);
@@ -254,6 +254,8 @@ public class HttpProxy {
 						&&*/ httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 					result = EntityUtils.toString(entity, "UTF-8");
 					// System.out.println("result:" + result);
+				} else {
+					throw new RuntimeException("错误的请求，httpCode:" + httpResponse.getStatusLine().getStatusCode());
 				}
 				//进行销毁
 				EntityUtils.consume(entity);
@@ -263,8 +265,7 @@ public class HttpProxy {
 				}
 			}
 		} catch(Exception e) {
-			e.printStackTrace();
-			result = "出现异常";
+			throw new RuntimeException("网络请求异常", e);
 		} finally {
 			if (null != httpPost) {
 				httpPost.releaseConnection();

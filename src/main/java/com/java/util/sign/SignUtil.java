@@ -1,6 +1,5 @@
 package com.java.util.sign;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Date;
@@ -19,12 +18,6 @@ public class SignUtil {
 	
 	/**app请求签名的key*/
 	public static final String APP_KEY = "b9b8309ca3a04a7c906c67f6ed24ec9d";
-	
-	
-	public static void main(String[] args) throws UnsupportedEncodingException {
-
-	}
-	
 	
 	
 	/**
