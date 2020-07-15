@@ -73,9 +73,9 @@ public class HttpProxy {
 	 * <B>概要说明：</B><BR>
 	 * @param requestUrl 请求路径
 	 * @return 字节数组
-	 * @throws Exception
+	 * @throws IOException 
 	 */
-	public static byte[] get4Stream(String requestUrl) throws IOException {
+	public static byte[] get4Stream(String requestUrl) throws  IOException {
 		byte[] ret = null;
 	    HttpGet httpGet = new HttpGet(requestUrl);
 	    CloseableHttpResponse response = httpClient.execute(httpGet);
@@ -99,11 +99,12 @@ public class HttpProxy {
 	 * @return 字符串
 	 * @throws Exception
 	 */
-	public static String get4String(String requestUrl) throws IOException {
+	public static String get4String(String requestUrl)  {
 		String ret = null;
 	    HttpGet httpGet = new HttpGet(requestUrl);
-	    CloseableHttpResponse response = httpClient.execute(httpGet);
+	    CloseableHttpResponse response = null;
 	    try {
+	    	response = httpClient.execute(httpGet);
 	        HttpEntity entity = response.getEntity();
 	        if (entity != null) {
 	            //long len = entity.getContentLength();
@@ -111,29 +112,15 @@ public class HttpProxy {
 	            EntityUtils.consume(entity);
 	        }
 	        return ret;
+	    } catch(Exception e) {
+	    	throw new RuntimeException("网络请求异常", e); 
 	    } finally {
-	        response.close();
+	        try {
+	        	if(response != null) response.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	    }	 
-	}
-	
-	public static void main(String[] args) throws IOException {
-		/*try {
-			get4String("10.50.50.11");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
-		
-		
-		String requestUrl = "https://console.tim.qq.com/v4/group_open_http_svc/create_group?usersig=eJw1jl0LgjAYhf-LrsPeLR1O6FJKMEIqJO8Wm-bi15oj*qD-nphdnnOeB86bHNODpx8GrSYRCwQDgMVU3rUlEWEekF8eVC2NQUUi6gOsuPDFTKLSncMSJ0GqFjscnJWut38Vq3Fxl1d2S82pCJ9F0*TLs0x2hl1pjsmmpHGvMgyTgcf7bb2eRYfteIsGAiDgAPzzBSHANOk_&identifier=administrator&sdkappid=1400369490&contenttype=json";
-		String requestContent = "{\r\n" + 
-				"\r\n" + 
-				"  \"Type\": \"Public\", \r\n" + 
-				"  \"Name\": \"TestGroup\" \r\n" + 
-				"}";
-		String result = post(requestUrl, requestContent);
-		
-		System.out.println("result: " + result);
-		
 	}
 	
 	/**
@@ -144,7 +131,7 @@ public class HttpProxy {
 	 * @return 返回响应结果
 	 * @throws IOException
 	 */
-	public static String post(String requestUrl, String requestContent) throws IOException {
+	public static String post(String requestUrl, String requestContent) {
 		StringEntity requestEntity = new StringEntity(requestContent, Consts.UTF_8);
 		return execute(requestUrl,requestEntity,null);
 	}
@@ -172,7 +159,7 @@ public class HttpProxy {
 	 * @return 返回响应结果
 	 * @throws IOException
 	 */
-	public static String postJson(String requestUrl, String jsonContent,Map<String,String> headMap) throws IOException {
+	public static String postJson(String requestUrl, String jsonContent,Map<String,String> headMap)  {
 		StringEntity requestEntity = new StringEntity(jsonContent, Consts.UTF_8);
 		requestEntity.setContentEncoding("UTF-8");    
 		requestEntity.setContentType(CONTENT_TYPE_JSON);  
@@ -187,7 +174,7 @@ public class HttpProxy {
 	 * @return 返回响应结果
 	 * @throws IOException
 	 */
-	public static String post(String requestUrl, Map<String, String> params) throws IOException {
+	public static String post(String requestUrl, Map<String, String> params)  {
 		List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 		if (params != null) {
 			for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -210,7 +197,7 @@ public class HttpProxy {
 	 * @return 响应信息
 	 * @throws IOException
 	 */
-	public static String upload(String requestUrl, String localFile, String username, String password) throws IOException {
+	public static String upload(String requestUrl, String localFile, String username, String password)  {
        // HttpPost httpPost = new HttpPost(requestUrl);
         // 把文件转换成流对象FileBody
         FileBody fileBody = new FileBody(new File(localFile));
