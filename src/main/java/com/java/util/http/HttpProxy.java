@@ -242,7 +242,7 @@ public class HttpProxy {
 					result = EntityUtils.toString(entity, "UTF-8");
 					// System.out.println("result:" + result);
 				} else {
-					throw new RuntimeException("错误的请求，httpCode:" + httpResponse.getStatusLine().getStatusCode());
+					throw new RuntimeException("请求错误，httpCode:" + httpResponse.getStatusLine().getStatusCode());
 				}
 				//进行销毁
 				EntityUtils.consume(entity);
