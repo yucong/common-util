@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.java.util.base.StringUtil;
+import com.java.util.base.SymbolicConsts;
 
 public class TimeUtil {
 
@@ -83,7 +84,7 @@ public class TimeUtil {
 	 * @return
 	 */
 	public static String getStringFromTime(Date time, String format) {
-		if (format == null || format.trim().equals("")) {
+		if (format == null || format.trim().equals(SymbolicConsts.EMPTY_STR)) {
 			simpleDateFormat.applyPattern(FORMAT_DATE_TIME);
 		} else {
 			simpleDateFormat.applyPattern(format);
@@ -233,5 +234,39 @@ public class TimeUtil {
         }
         return age;
     }
+    
+    // 在某个时间点 增加n个小时
+    public static Date addHour(Date date, int n) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.HOUR, n);
+		return cal.getTime();
+	}
+    
+    
+    public static Date addDay(Date date, int n) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, n);
+		return cal.getTime();
+	}
+    
+    public static Date addMonth(Date date, int n) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.MONTH, n);
+		return cal.getTime();
+	}
+    
+    /*public static void main(String[] args) {
+		
+    	Date now = new Date();
+    	Date before = addDay(now, -7);
+    	
+    	String s = TimeUtil.getStringFromTime(before, TIME_FORMAT_SHOW_MILLISECOND_WITH_COLON);
+    	System.out.println(s);
+	}*/
+    
+   
 
 }
